@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dealer Quick Pre-Check — Sonoma Capital</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --blue: #189AD6; --navy: #091F40; --bg: #f0f4f8; --card: #ffffff; --border: #dde3ec; --muted: #7a8799; --label: #4a5568; --input-bg: #f8fafc; }
+  html { scroll-behavior: smooth; }
+  body { font-family: "Montserrat", sans-serif; background: var(--bg); color: var(--navy); min-height: 100vh; }
+  .site-header { background: var(--navy); padding: 0 2rem; position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--blue); }
+  .header-inner { max-width: 860px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 62px; }
+  .logo-wordmark { color: white; font-size: 15px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; }
+  .header-tag { font-size: 10px; font-weight: 700; color: var(--blue); letter-spacing: 0.08em; text-transform: uppercase; border: 1.5px solid rgba(24,154,214,0.4); padding: 5px 14px; border-radius: 20px; }
+  .hero { background: var(--navy); padding: 2.5rem 2rem 3rem; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: ""; position: absolute; top: -60px; right: -60px; width: 280px; height: 280px; background: rgba(24,154,214,0.06); border-radius: 50%; }
+  .hero::after { content: ""; position: absolute; bottom: -70px; left: -40px; width: 220px; height: 220px; background: rgba(24,154,214,0.04); border-radius: 50%; }
+  .hero-eyebrow { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); background: rgba(24,154,214,0.12); padding: 5px 16px; border-radius: 20px; margin-bottom: 1rem; }
+  .hero h1 { font-size: clamp(22px, 4vw, 34px); font-weight: 800; color: white; line-height: 1.2; margin-bottom: 0.6rem; }
+  .hero h1 span { color: var(--blue); }
+  .hero p { font-size: 13px; color: rgba(255,255,255,0.5); font-weight: 500; }
+  .page-body { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+  .form-card { background: var(--card); border-radius: 16px; border: 0.5px solid var(--border); overflow: hidden; margin-bottom: 1.25rem; }
+  .form-divider { height: 1px; background: var(--border); opacity: 0.7; }
+  .section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); padding: 1.25rem 1.75rem 0; }
+  .field-group { padding: 0.9rem 1.75rem 1.4rem; display: grid; gap: 1.1rem; }
+  .field-group.cols2 { grid-template-columns: 1fr 1fr; }
+  .field-group.cols3 { grid-template-columns: 1fr 1fr 1fr; }
+  @media (max-width: 640px) { .field-group.cols2, .field-group.cols3 { grid-template-columns: 1fr; } }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label { font-size: 11px; font-weight: 700; color: var(--label); letter-spacing: 0.05em; text-transform: uppercase; }
+  .field label .req { color: var(--blue); margin-left: 2px; }
+  .field label .opt { color: #bbc; font-weight: 500; text-transform: none; font-size: 10px; margin-left: 4px; letter-spacing: 0; }
+  input[type="text"], input[type="tel"], input[type="email"], input[type="number"], select, textarea { font-family: "Montserrat", sans-serif; font-size: 13px; font-weight: 500; color: var(--navy); background: var(--input-bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 13px; outline: none; transition: border-color 0.2s, box-shadow 0.2s; -webkit-appearance: none; appearance: none; width: 100%; }
+  input:focus, select:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(24,154,214,0.12); background: white; }
+  textarea { min-height: 80px; resize: vertical; line-height: 1.6; }
+  .select-wrap { position: relative; }
+  .select-wrap::after { content: ""; position: absolute; right: 13px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid var(--navy); pointer-events: none; }
+  .radio-group { display: flex; gap: 7px; flex-wrap: wrap; }
+  .radio-btn { flex: 1; min-width: 56px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 8px; padding: 9px 8px; font-family: "Montserrat", sans-serif; font-size: 11px; font-weight: 600; color: var(--navy); cursor: pointer; text-align: center; transition: all 0.15s; line-height: 1.3; }
+  .radio-btn:hover { border-color: var(--blue); background: rgba(24,154,214,0.06); color: var(--blue); }
+  .radio-btn.selected { background: var(--blue); border-color: var(--blue); color: white; }
+  .field-hint { font-size: 10px; font-weight: 500; color: #aab; margin-top: 4px; font-style: italic; }
+  #dbaField, #downPaymentAmountField, #tradeInDetailField, #tradeInValueField { background: rgba(24,154,214,0.04); border: 1px dashed rgba(24,154,214,0.3); border-radius: 10px; padding: 0.85rem 1rem; }
+  .submit-area { background: var(--navy); border-radius: 14px; padding: 1.5rem 1.75rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .submit-info p { font-size: 13px; font-weight: 600; color: white; margin-bottom: 3px; }
+  .submit-info span { font-size: 11px; color: rgba(255,255,255,0.45); font-weight: 500; }
+  .btn-submit { background: var(--blue); border: none; border-radius: 10px; padding: 13px 28px; font-family: "Montserrat", sans-serif; font-size: 13px; font-weight: 700; color: white; cursor: pointer; letter-spacing: 0.03em; transition: background 0.18s; white-space: nowrap; flex-shrink: 0; }
+  .btn-submit:hover { background: #1488c0; }
+  .contact-bar { background: var(--navy); border-radius: 14px; padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .contact-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: white; flex-shrink: 0; }
+  .contact-info { flex: 1; min-width: 120px; }
+  .contact-name { font-size: 14px; font-weight: 700; color: white; margin-bottom: 2px; }
+  .contact-role { font-size: 11px; color: rgba(255,255,255,0.45); font-weight: 500; }
+  .contact-details { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+  .contact-details a { font-size: 12px; font-weight: 600; color: var(--blue); text-decoration: none; }
+  .disclaimer { font-size: 10px; color: #aab; text-align: center; line-height: 1.7; max-width: 580px; margin: 0 auto; }
+  .success-overlay { display: none; position: fixed; inset: 0; background: rgba(9,31,64,0.88); z-index: 200; align-items: center; justify-content: center; padding: 1.5rem; }
+  .success-overlay.visible { display: flex; }
+  .success-modal { background: white; border-radius: 18px; padding: 2rem; max-width: 460px; width: 100%; text-align: center; max-height: 90vh; overflow-y: auto; }
+  .success-icon { width: 60px; height: 60px; background: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; }
+  .success-modal h2 { font-size: 21px; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+  .success-modal > p { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 1.25rem; }
+  .signal-badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 5px 16px; border-radius: 20px; letter-spacing: 0.05em; margin-bottom: 1.25rem; text-transform: uppercase; }
+  .signal-green { background: #e6f7ee; color: #1a7a4a; }
+  .signal-amber { background: #fff8e6; color: #a06800; }
+  .signal-red { background: #fdecea; color: #b02020; }
+  .summary-table { background: #f8fafc; border-radius: 10px; padding: 0.75rem 1rem; margin-bottom: 1.25rem; text-align: left; }
+  .summary-row { display: flex; justify-content: space-between; gap: 12px; padding: 5px 0; border-bottom: 0.5px solid #edf0f4; }
+  .summary-row:last-child { border-bottom: none; }
+  .s-key { font-size: 10px; font-weight: 700; color: #889; text-transform: uppercase; letter-spacing: 0.06em; flex-shrink: 0; }
+  .s-val { font-size: 12px; font-weight: 600; color: var(--navy); text-align: right; }
+  .btn-email { display: block; width: 100%; padding: 13px; background: var(--blue); border: none; border-radius: 10px; font-family: "Montserrat", sans-serif; font-size: 13px; font-weight: 700; color: white; text-decoration: none; cursor: pointer; margin-bottom: 10px; text-align: center; }
+  .btn-email:hover { background: #1488c0; }
+  .copy-hint { font-size: 11px; color: #889; text-align: center; margin-bottom: 10px; font-weight: 500; line-height: 1.5; }
+  .btn-copy { display: block; width: 100%; padding: 13px; background: white; border: 1.5px solid var(--blue); border-radius: 10px; font-family: "Montserrat", sans-serif; font-size: 13px; font-weight: 700; color: var(--blue); cursor: pointer; margin-bottom: 10px; text-align: center; transition: all 0.18s; }
+  .btn-copy:hover { background: rgba(24,154,214,0.06); }
+  .btn-copy.copied { background: #e6f7ee; border-color: #1a7a4a; color: #1a7a4a; }
+  .btn-reset { width: 100%; padding: 11px; background: transparent; border: 1px solid var(--border); border-radius: 10px; font-family: "Montserrat", sans-serif; font-size: 12px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.18s; }
+  .btn-reset:hover { border-color: var(--navy); color: var(--navy); }
+  .modal-disclaimer { font-size: 10px; color: #bbc; margin-top: 1rem; line-height: 1.6; }
+
+  .send-instructions { background: #f8fafc; border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; text-align: left; }
+  .send-step { font-size: 11px; font-weight: 700; color: var(--label); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; margin-top: 12px; }
+  .send-step:first-child { margin-top: 0; }
+  .copy-subject-wrap { display: flex; align-items: center; gap: 8px; background: white; border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; margin-bottom: 4px; }
+  .subject-text { font-size: 12px; font-weight: 600; color: var(--navy); flex: 1; line-height: 1.4; }
+  .btn-copy-inline { background: var(--blue); border: none; border-radius: 6px; padding: 5px 12px; font-family: "Montserrat", sans-serif; font-size: 11px; font-weight: 700; color: white; cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: background 0.15s; }
+  .btn-copy-inline:hover { background: #1488c0; }
+  .btn-copy-inline.copied { background: #1a7a4a; }
+  .send-email { font-size: 13px; font-weight: 700; color: var(--blue); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <span class="logo-wordmark">Sonoma Capital</span>
+    <div class="header-tag">Dealer Pre-Check</div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-eyebrow">Dealer Activation Tool</div>
+  <h1>Quick Deal <span>Pre-Check</span></h1>
+  <p>Fill this out with your client. Takes about 2 minutes to complete.</p>
+</div>
+
+<div class="page-body">
+  <div class="form-card">
+
+    <div class="section-label">Contact Info</div>
+    <div class="field-group cols3">
+      <div class="field">
+        <label>Client name <span class="req">*</span></label>
+        <input type="text" id="clientName" placeholder="Full name">
+      </div>
+      <div class="field">
+        <label>Phone <span class="req">*</span></label>
+        <input type="tel" id="clientPhone" placeholder="(604) 000-0000">
+      </div>
+      <div class="field">
+        <label>Email <span class="req">*</span></label>
+        <input type="email" id="clientEmail" placeholder="email@company.com">
+      </div>
+    </div>
+
+    <div class="form-divider"></div>
+
+    <div class="section-label">Business Snapshot</div>
+    <div class="field-group cols2">
+      <div class="field">
+        <label>Business legal name <span class="opt">(optional)</span></label>
+        <input type="text" id="bizName" placeholder="Legal registered name">
+      </div>
+      <div class="field">
+        <label>Ownership type <span class="req">*</span></label>
+        <div class="select-wrap">
+          <select id="ownershipType" onchange="toggleDBA(this)">
+            <option value="">Select...</option>
+            <option>Sole Proprietor</option>
+            <option>Incorporated</option>
+            <option>Limited Partnership</option>
+            <option>Partnership</option>
+          </select>
+        </div>
+      </div>
+      <div class="field" id="dbaField" style="display:none; grid-column: span 2;">
+        <label>DBA / O/A name <span class="opt">(optional)</span></label>
+        <input type="text" id="dbaName" placeholder="Operating or trade name, if different from legal name">
+        <span class="field-hint">For sole proprietors operating under a trade name</span>
+      </div>
+      <div class="field">
+        <label>Year of business establishment <span class="req">*</span></label>
+        <input type="number" id="yearEstablished" placeholder="e.g. 2018" min="1900" max="2025">
+      </div>
+      <div class="field">
+        <label>Industry <span class="req">*</span></label>
+        <input type="text" id="industry" placeholder="e.g. Construction, Landscaping">
+      </div>
+    </div>
+
+    <div class="form-divider"></div>
+
+    <div class="section-label">Deal Details</div>
+    <div class="field-group cols3">
+      <div class="field">
+        <label>Equipment type <span class="req">*</span></label>
+        <input type="text" id="equipType" placeholder="e.g. Excavator, Van, Trailer">
+      </div>
+      <div class="field">
+        <label>Purchase price <span class="req">*</span></label>
+        <input type="text" id="purchasePrice" placeholder="e.g. $85,000">
+      </div>
+      <div class="field">
+        <label>Condition <span class="req">*</span></label>
+        <div class="radio-group">
+          <button type="button" class="radio-btn" onclick="pick(this,'condition')">New</button>
+          <button type="button" class="radio-btn" onclick="pick(this,'condition')">Used</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Down payment available?</label>
+        <div class="radio-group">
+          <button type="button" class="radio-btn" onclick="pick(this,'downpayment'); toggleDownPayment(this)">Yes</button>
+          <button type="button" class="radio-btn" onclick="pick(this,'downpayment'); toggleDownPayment(this)">No</button>
+          <button type="button" class="radio-btn" onclick="pick(this,'downpayment'); toggleDownPayment(this)">Maybe</button>
+        </div>
+      </div>
+      <div class="field" id="downPaymentAmountField" style="display:none;">
+        <label>Approximate amount <span class="opt">(optional)</span></label>
+        <input type="text" id="downPaymentAmount" placeholder="e.g. $10,000">
+        <span class="field-hint">Rough estimate is fine</span>
+      </div>
+      <div class="field">
+        <label>Trade-in?</label>
+        <div class="radio-group">
+          <button type="button" class="radio-btn" onclick="pick(this,'tradein'); toggleTradeIn(this)">Yes</button>
+          <button type="button" class="radio-btn" onclick="pick(this,'tradein'); toggleTradeIn(this)">No</button>
+        </div>
+      </div>
+      <div class="field" id="tradeInDetailField" style="display:none;">
+        <label>Trade-in description <span class="opt">(optional)</span></label>
+        <input type="text" id="tradeInDetail" placeholder="e.g. 2018 Kenworth T680, ~300K km">
+        <span class="field-hint">Year, make, model and rough condition</span>
+      </div>
+      <div class="field" id="tradeInValueField" style="display:none;">
+        <label>Estimated trade-in value <span class="opt">(optional)</span></label>
+        <input type="text" id="tradeInValue" placeholder="e.g. $35,000">
+        <span class="field-hint">Rough estimate is fine</span>
+      </div>
+    </div>
+
+    <div class="form-divider"></div>
+
+    <div class="section-label">Credit Signals</div>
+    <div class="field-group cols3">
+      <div class="field">
+        <label>Financed equipment before?</label>
+        <div class="radio-group">
+          <button type="button" class="radio-btn" onclick="pick(this,'financed')">Yes</button>
+          <button type="button" class="radio-btn" onclick="pick(this,'financed')">No</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Past bankruptcies or repossessions?</label>
+        <div class="radio-group">
+          <button type="button" class="radio-btn" onclick="pick(this,'bk')">No</button>
+          <button type="button" class="radio-btn" onclick="pick(this,'bk')">Yes</button>
+          <button type="button" class="radio-btn" onclick="pick(this,'bk')">Prefer to discuss</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>How would you describe your credit?</label>
+        <div class="radio-group">
+          <button type="button" class="radio-btn" onclick="pick(this,'credit')">Strong</button>
+          <button type="button" class="radio-btn" onclick="pick(this,'credit')">Average</button>
+          <button type="button" class="radio-btn" onclick="pick(this,'credit')">Needs review</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-divider"></div>
+
+    <div class="section-label">Use of Equipment</div>
+    <div class="field-group cols2">
+      <div class="field">
+        <label>How will the equipment be used? <span class="req">*</span></label>
+        <div class="select-wrap">
+          <select id="usage">
+            <option value="">Select...</option>
+            <option>Revenue generating</option>
+            <option>Replacement</option>
+            <option>Expansion</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-divider"></div>
+
+    <div class="section-label">Dealer Info</div>
+    <div class="field-group cols3">
+      <div class="field">
+        <label>Dealer name <span class="req">*</span></label>
+        <input type="text" id="dealerName" placeholder="Dealership name">
+      </div>
+      <div class="field">
+        <label>Dealer contact name <span class="req">*</span></label>
+        <input type="text" id="dealerContact" placeholder="Contact name">
+      </div>
+      <div class="field">
+        <label>Dealer contact phone <span class="req">*</span></label>
+        <input type="tel" id="dealerPhone" placeholder="(604) 000-0000">
+      </div>
+    </div>
+
+    <div class="form-divider"></div>
+
+    <div class="section-label">Additional Notes</div>
+    <div class="field-group">
+      <div class="field">
+        <label>Anything else we should know? <span class="opt">(optional)</span></label>
+        <textarea id="notes" placeholder="Any context that might help Natalia move faster on this deal..."></textarea>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="submit-area">
+    <div class="submit-info">
+      <p>Ready to send to Natalia?</p>
+
+    </div>
+    <button type="button" class="btn-submit" onclick="submitForm()">Review &amp; Send Pre-Check</button>
+  </div>
+
+  <div class="contact-bar">
+    <div class="contact-avatar">NG</div>
+    <div class="contact-info">
+      <div class="contact-name">Natalia Gallegos</div>
+      <div class="contact-role">Business Development Manager &mdash; BC &amp; Lower Mainland</div>
+    </div>
+    <div class="contact-details">
+      <a href="tel:16043496169">1.604.349.6169</a>
+      <a href="mailto:natalia.gallegos@sonomacapital.ca">natalia.gallegos@sonomacapital.ca</a>
+      <a href="https://sonomacapital.ca" target="_blank">sonomacapital.ca</a>
+    </div>
+  </div>
+
+  <p class="disclaimer">This is a preliminary review and not a formal credit application. Additional information and authorization will be required.</p>
+</div>
+
+<div class="success-overlay" id="successOverlay">
+  <div class="success-modal">
+    <div class="success-icon">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <path d="M5 14.5L11 20.5L23 8.5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h2>Ready to send!</h2>
+    <div id="signalWrap"></div>
+    <div class="summary-table" id="summaryTable"></div>
+    <div class="send-instructions">
+      <p class="send-step">Step 1 &mdash; Copy the subject line:</p>
+      <div class="copy-subject-wrap">
+        <span id="subjectLine" class="subject-text"></span>
+        <button type="button" class="btn-copy-inline" id="btnCopySubject" onclick="copySubject()">Copy</button>
+      </div>
+      <p class="send-step">Step 2 &mdash; Copy the deal details:</p>
+      <button type="button" class="btn-copy" id="btnCopy" onclick="copyDetails()">Copy all deal details</button>
+      <p class="send-step">Step 3 &mdash; Open your email, paste both, and send to:</p>
+      <p class="send-email">natalia.gallegos@sonomacapital.ca</p>
+    </div>
+    <button type="button" class="btn-reset" onclick="resetForm()">Start a new pre-check</button>
+    <p class="modal-disclaimer">This is a preliminary review and not a formal credit application. Additional information and authorization will be required.</p>
+  </div>
+</div>
+
+<script>
+var picks = {};
+var emailBodyText = "";
+
+function toggleDBA(sel) {
+  var f = document.getElementById("dbaField");
+  if (sel.value === "Sole Proprietor") { f.style.display = "block"; }
+  else { f.style.display = "none"; document.getElementById("dbaName").value = ""; }
+}
+
+function toggleDownPayment(btn) {
+  var f = document.getElementById("downPaymentAmountField");
+  if (btn.textContent.trim() === "Yes") { f.style.display = "block"; }
+  else { f.style.display = "none"; document.getElementById("downPaymentAmount").value = ""; }
+}
+
+function toggleTradeIn(btn) {
+  var d = document.getElementById("tradeInDetailField");
+  var v = document.getElementById("tradeInValueField");
+  if (btn.textContent.trim() === "Yes") { d.style.display = "block"; v.style.display = "block"; }
+  else { d.style.display = "none"; v.style.display = "none"; document.getElementById("tradeInDetail").value = ""; document.getElementById("tradeInValue").value = ""; }
+}
+
+function pick(el, group) {
+  var btns = el.parentElement.querySelectorAll(".radio-btn");
+  for (var i = 0; i < btns.length; i++) { btns[i].classList.remove("selected"); }
+  el.classList.add("selected");
+  picks[group] = el.textContent.trim();
+}
+
+function validate() {
+  var required = [
+    { id: "clientName", msg: "Please enter the client name." },
+    { id: "clientPhone", msg: "Please enter the client phone number." },
+    { id: "clientEmail", msg: "Please enter the client email address." },
+    { id: "ownershipType", msg: "Please select an ownership type.", isSelect: true },
+    { id: "yearEstablished", msg: "Please enter the year the business was established." },
+    { id: "industry", msg: "Please enter the industry." },
+    { id: "equipType", msg: "Please describe the equipment type." },
+    { id: "purchasePrice", msg: "Please enter the purchase price." },
+    { id: "usage", msg: "Please select how the equipment will be used.", isSelect: true },
+    { id: "dealerName", msg: "Please enter the dealer name." },
+    { id: "dealerContact", msg: "Please enter the dealer contact name." },
+    { id: "dealerPhone", msg: "Please enter the dealer contact phone number." }
+  ];
+  for (var i = 0; i < required.length; i++) {
+    var f = required[i];
+    var el = document.getElementById(f.id);
+    var val = f.isSelect ? el.value : el.value.trim();
+    if (!val) {
+      el.focus();
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      setTimeout((function(m) { return function() { alert(m); }; })(f.msg), 300);
+      return false;
+    }
+  }
+  return true;
+}
+
+function getSignal() {
+  var bk = picks["bk"] || "";
+  var credit = picks["credit"] || "";
+  var year = parseInt(document.getElementById("yearEstablished").value) || 0;
+  var yrs = year > 0 ? new Date().getFullYear() - year : 0;
+  var score = 0;
+  if (bk === "No") score += 2; else if (bk === "Yes") score -= 2;
+  if (credit === "Strong") score += 2; else if (credit === "Average") score += 1; else if (credit === "Needs review") score -= 1;
+  if (yrs >= 3) score += 2; else if (yrs >= 1) score += 1;
+  if (score >= 4) return { label: "Looks promising", cls: "signal-green" };
+  if (score >= 1) return { label: "Some items to discuss", cls: "signal-amber" };
+  return { label: "Needs closer review", cls: "signal-red" };
+}
+
+function buildEmail(d, signal) {
+  var date = new Date().toLocaleDateString("en-CA", { year: "numeric", month: "long", day: "numeric" });
+  var b = "SONOMA CAPITAL -- DEALER PRE-CHECK SUBMISSION\n";
+  b += "Date: " + date + "\n";
+  b += "Deal signal: " + signal.label.toUpperCase() + "\n";
+  b += "_______________________________________________\n\n";
+  b += "CLIENT CONTACT\n";
+  b += "Name:   " + d.clientName + "\n";
+  b += "Phone:  " + d.clientPhone + "\n";
+  b += "Email:  " + d.clientEmail + "\n\n";
+  b += "BUSINESS SNAPSHOT\n";
+  b += "Legal name:        " + (d.bizName || "Not provided") + "\n";
+  if (d.dbaName) { b += "DBA / O/A name:    " + d.dbaName + "\n"; }
+  b += "Ownership type:    " + d.ownershipType + "\n";
+  b += "Year established:  " + d.yearEstablished + "\n";
+  b += "Industry:          " + d.industry + "\n\n";
+  b += "DEAL DETAILS\n";
+  b += "Equipment type:   " + d.equipType + "\n";
+  b += "Purchase price:   " + d.purchasePrice + "\n";
+  b += "Condition:        " + (picks["condition"] || "Not specified") + "\n";
+  b += "Down payment:     " + (picks["downpayment"] || "Not specified") + (d.downPaymentAmount ? " -- " + d.downPaymentAmount : "") + "\n";
+  b += "Trade-in:         " + (picks["tradein"] || "Not specified") + (d.tradeInDetail ? " -- " + d.tradeInDetail : "") + "\n";
+  if (d.tradeInValue) { b += "Trade-in value:   " + d.tradeInValue + "\n"; }
+  b += "\n";
+  b += "CREDIT SIGNALS\n";
+  b += "Prior equipment financing:        " + (picks["financed"] || "Not specified") + "\n";
+  b += "Past bankruptcies/repossessions:  " + (picks["bk"] || "Not specified") + "\n";
+  b += "Credit profile:                   " + (picks["credit"] || "Not specified") + "\n\n";
+  b += "USE OF EQUIPMENT\n";
+  b += "Intended use: " + d.usage + "\n\n";
+  b += "DEALER INFO\n";
+  b += "Dealer:                 " + d.dealerName + "\n";
+  b += "Dealer contact name:    " + d.dealerContact + "\n";
+  b += "Dealer contact phone:   " + d.dealerPhone + "\n\n";
+  if (d.notes) { b += "ADDITIONAL NOTES\n" + d.notes + "\n\n"; }
+  b += "_______________________________________________\n";
+  b += "This is a preliminary review and not a formal credit application.\n";
+  b += "Additional information and authorization will be required.";
+  return b;
+}
+
+function submitForm() {
+  if (!validate()) return;
+  var d = {
+    clientName: document.getElementById("clientName").value.trim(),
+    clientPhone: document.getElementById("clientPhone").value.trim(),
+    clientEmail: document.getElementById("clientEmail").value.trim(),
+    bizName: document.getElementById("bizName").value.trim(),
+    dbaName: document.getElementById("dbaName").value.trim(),
+    ownershipType: document.getElementById("ownershipType").value,
+    yearEstablished: document.getElementById("yearEstablished").value.trim(),
+    industry: document.getElementById("industry").value.trim(),
+    equipType: document.getElementById("equipType").value.trim(),
+    purchasePrice: document.getElementById("purchasePrice").value.trim(),
+    downPaymentAmount: document.getElementById("downPaymentAmount").value.trim(),
+    tradeInDetail: document.getElementById("tradeInDetail").value.trim(),
+    tradeInValue: document.getElementById("tradeInValue").value.trim(),
+    usage: document.getElementById("usage").value,
+    dealerName: document.getElementById("dealerName").value.trim(),
+    dealerContact: document.getElementById("dealerContact").value.trim(),
+    dealerPhone: document.getElementById("dealerPhone").value.trim(),
+    notes: document.getElementById("notes").value.trim()
+  };
+  var signal = getSignal();
+  var subject = "Deal Pre-Check: " + d.clientName + " | " + d.equipType + " | " + d.purchasePrice;
+  var body = buildEmail(d, signal);
+  emailBodyText = body;
+
+  var rows = [
+    ["Client", d.clientName], ["Phone", d.clientPhone], ["Email", d.clientEmail],
+    ["Business", d.bizName || "Not provided"], ["Ownership", d.ownershipType],
+    ["Est.", d.yearEstablished], ["Industry", d.industry],
+    ["Equipment", d.equipType], ["Price", d.purchasePrice],
+    ["Condition", picks["condition"] || "Not specified"],
+    ["Down payment", picks["downpayment"] || "Not specified"],
+    ["Trade-in", picks["tradein"] || "Not specified"],
+    ["Use", d.usage], ["Credit", picks["credit"] || "Not specified"],
+    ["Dealer", d.dealerName]
+  ];
+  var html = "";
+  for (var i = 0; i < rows.length; i++) {
+    html += "<div class=\"summary-row\"><span class=\"s-key\">" + rows[i][0] + "</span><span class=\"s-val\">" + rows[i][1] + "</span></div>";
+  }
+  document.getElementById("summaryTable").innerHTML = html;
+  document.getElementById("signalWrap").innerHTML = "<span class=\"signal-badge " + signal.cls + "\">" + signal.label + "</span><br><br>";
+  var bizDisplay = d.bizName ? d.bizName : d.clientName;
+  var subjectText = "New Lead - " + bizDisplay + " | Referred by " + d.dealerName;
+  document.getElementById("subjectLine").textContent = subjectText;
+  window.subjectText = subjectText;
+  document.getElementById("btnCopy").textContent = "Copy all deal details";
+  document.getElementById("btnCopy").classList.remove("copied");
+  document.getElementById("btnCopySubject").textContent = "Copy";
+  document.getElementById("btnCopySubject").classList.remove("copied");
+  document.getElementById("successOverlay").classList.add("visible");
+  window.scrollTo(0, 0);
+}
+
+function copySubject() {
+  var btn = document.getElementById("btnCopySubject");
+  var text = window.subjectText || "";
+  function markCopied() {
+    btn.textContent = "Copied!";
+    btn.classList.add("copied");
+    setTimeout(function() { btn.textContent = "Copy"; btn.classList.remove("copied"); }, 3000);
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(markCopied).catch(fallbackSubject);
+  } else { fallbackSubject(); }
+  function fallbackSubject() {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.cssText = "position:fixed;opacity:0;top:0;left:0";
+    document.body.appendChild(ta);
+    ta.focus(); ta.select();
+    try { document.execCommand("copy"); markCopied(); } catch(e) { btn.textContent = "Please copy manually"; }
+    document.body.removeChild(ta);
+  }
+}
+
+function copyDetails() {
+  if (!emailBodyText) return;
+  var btn = document.getElementById("btnCopy");
+  function markCopied() {
+    btn.textContent = "Copied!";
+    btn.classList.add("copied");
+    setTimeout(function() { btn.textContent = "Copy all details to clipboard"; btn.classList.remove("copied"); }, 3000);
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(emailBodyText).then(markCopied).catch(function() { fallback(); });
+  } else { fallback(); }
+  function fallback() {
+    var ta = document.createElement("textarea");
+    ta.value = emailBodyText;
+    ta.style.cssText = "position:fixed;opacity:0;top:0;left:0";
+    document.body.appendChild(ta);
+    ta.focus(); ta.select();
+    try { document.execCommand("copy"); markCopied(); } catch(e) { btn.textContent = "Please copy manually"; }
+    document.body.removeChild(ta);
+  }
+}
+
+function resetForm() {
+  document.getElementById("successOverlay").classList.remove("visible");
+  var inputs = document.querySelectorAll("input, select, textarea");
+  for (var i = 0; i < inputs.length; i++) { inputs[i].value = ""; }
+  var btns = document.querySelectorAll(".radio-btn");
+  for (var i = 0; i < btns.length; i++) { btns[i].classList.remove("selected"); }
+  picks = {};
+  emailBodyText = "";
+  document.getElementById("downPaymentAmountField").style.display = "none";
+  document.getElementById("tradeInDetailField").style.display = "none";
+  document.getElementById("tradeInValueField").style.display = "none";
+  document.getElementById("dbaField").style.display = "none";
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
